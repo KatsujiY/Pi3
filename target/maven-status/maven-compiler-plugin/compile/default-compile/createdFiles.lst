@@ -1,0 +1,4 @@
+com\meuprojeto\service\AlunoService.class
+com\meuprojeto\model\Aluno.class
+com\meuprojeto\repository\AlunoRepository.class
+com\meuprojeto\Main.class
