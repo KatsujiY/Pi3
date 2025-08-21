@@ -1,4 +1,6 @@
-com\meuprojeto\service\AlunoService.class
-com\meuprojeto\model\Aluno.class
-com\meuprojeto\repository\AlunoRepository.class
-com\meuprojeto\Main.class
+com\pi3\App.class
+com\pi3\repository\AlunoRepository.class
+com\pi3\model\Aluno.class
+com\pi3\service\AlunoService.class
+com\pi3\util\FileUtil.class
+com\pi3\repository\IRepository.class
