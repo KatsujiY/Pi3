@@ -17,6 +17,9 @@ public class AlunoService {
     }
 
     public void cadastrarAluno(String id, String nome, String curso) {
+        if (!validarMatricula(id)) {
+            throw new IllegalArgumentException("Matrícula inválida! Deve conter 6 dígitos numéricos.");
+        }
         Aluno aluno = new Aluno(id, nome, curso);
         alunos.add(aluno);
         repository.salvar(alunos);
@@ -24,5 +27,12 @@ public class AlunoService {
 
     public List<Aluno> listarAlunos() {
         return new ArrayList<>(alunos);
+    }
+
+    /**
+     * Valida se a matrícula é numérica e contém 6 dígitos.
+     */
+    public boolean validarMatricula(String id) {
+        return id != null && id.matches("\\d{6}");
     }
 }

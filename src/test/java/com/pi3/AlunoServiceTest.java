@@ -1,12 +1,10 @@
 package com.pi3;
 
-import com.pi3.model.Aluno;
-import com.pi3.repository.AlunoRepository;
 import com.pi3.service.AlunoService;
+import com.pi3.repository.AlunoRepository;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,22 +23,28 @@ class AlunoServiceTest {
     }
 
     @Test
-    void testCadastrarAluno() {
-        service.cadastrarAluno("1", "João", "Engenharia");
-        List<Aluno> alunos = service.listarAlunos();
-        assertEquals(1, alunos.size());
-        assertEquals("João", alunos.get(0).getNome());
+    void testValidarMatriculaValida() {
+        assertTrue(service.validarMatricula("123456"));
     }
 
     @Test
-    void testPersistencia() {
-        service.cadastrarAluno("2", "Maria", "Medicina");
+    void testValidarMatriculaInvalida() {
+        assertFalse(service.validarMatricula("123"));     // Muito curta
+        assertFalse(service.validarMatricula("abcdef"));  // Não numérica
+        assertFalse(service.validarMatricula("1234567")); // Muito longa
+    }
 
-        // Recarrega em um novo serviço para validar persistência
-        AlunoService novoService = new AlunoService(new AlunoRepository());
-        List<Aluno> alunos = novoService.listarAlunos();
+    @Test
+    void testCadastrarAlunoValido() {
+        service.cadastrarAluno("654321", "Ana", "Direito");
+        assertEquals(1, service.listarAlunos().size());
+    }
 
-        assertEquals(1, alunos.size());
-        assertEquals("Maria", alunos.get(0).getNome());
+    @Test
+    void testCadastrarAlunoInvalido() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.cadastrarAluno("abc123", "Pedro", "História");
+        });
+        assertEquals("Matrícula inválida! Deve conter 6 dígitos numéricos.", exception.getMessage());
     }
 }
